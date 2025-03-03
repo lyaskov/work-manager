@@ -18,7 +18,8 @@ class TaskType(models.Model):
 
 class Worker(AbstractUser):
     position = models.ForeignKey(
-        Position, on_delete=models.CASCADE, related_name='workers'
+        Position, on_delete=models.CASCADE, related_name='workers',
+        null=True, blank=True
     )
     first_name = models.CharField(max_length=150, blank=False, null=False)
     last_name = models.CharField(max_length=150, blank=False, null=False)
