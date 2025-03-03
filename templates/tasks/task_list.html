@@ -1,0 +1,82 @@
+<h2>Task List</h2>
+{{ tasks.paginator }}
+  
+  <a href="{% url 'management:tasks-create' %}" class="btn btn-primary">+ Add New Task</a>  
+
+  {% if tasks %}
+    <table border="1">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Deadline</th>
+      <th>Priority</th>
+      <th>Assignees</th>
+      <th>Completed</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for task in tasks %}
+      <tr>
+        <td>{{ task.id }}</td>
+        <td><a href="{% url 'management:task-detail' task.pk %}">{{ task.name }}</a></td>
+        <td>
+          {% if task.description|length > 60 %}
+            {{ task.description|slice:":60" }}...
+          {% else %}
+            {{ task.description }}
+          {% endif %}
+        </td>
+        <td>{{ task.deadline }}</td>
+        <td>{{ task.priority }}</td>
+        <td>
+          {% if task.assignees.all %}
+            {{ task.assignees.all|join:", " }}
+          {% else %}
+            No assignees
+          {% endif %}
+        </td>
+        <td>
+          {% if task.is_completed %}
+            ✅ Completed
+          {% else %}
+            ❌ Not Completed
+          {% endif %}
+        </td>
+        <td>
+          <a href="{% url 'management:task-edit' task.pk %}" class="btn btn-warning">Edit</a>
+          <a href="{% url 'management:task-delete' task.pk %}" class="btn btn-danger">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+    </table>
+
+
+    {% if page_obj.paginator.num_pages > 1 %}
+      <div class="pagination" style="margin-top: 15px">
+        {% if page_obj.has_previous %}
+          <a href="?page=1">« First</a>
+          <a href="?page={{ page_obj.previous_page_number }}">‹ Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+          {% if num == page_obj.number %}
+            <strong>{{ num }}</strong>
+          {% else %}
+            <a href="?page={{ num }}">{{ num }}</a>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">Next ›</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}">Last »</a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  {% else %}
+    <p>No tasks available.</p>
+  {% endif %}
