@@ -12,6 +12,10 @@ class Position(models.Model):
 class TaskType(models.Model):
     name = models.CharField(max_length=100)
 
+    class Meta:
+        verbose_name = "Task Type"
+        verbose_name_plural = "Task Types"
+
     def __str__(self):
         return self.name
 
