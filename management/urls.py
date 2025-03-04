@@ -1,10 +1,10 @@
 from django.urls import path
 
-from management.views import index, dashboard, TaskCreateView, TaskListView, \
-    TaskUpdateView, TaskDetailView, TaskDeleteView
+from management.views import TaskCreateView, TaskListView, \
+    TaskUpdateView, TaskDetailView, TaskDeleteView, DashboardView
 
 urlpatterns = [
-    path("dashboard/", dashboard, name="dashboard"),
+    path("dashboard/", DashboardView.as_view(), name="dashboard"),
     path('tasks/', TaskListView.as_view(), name='task-list'),
     path("tasks/create/", TaskCreateView.as_view(), name="tasks-create"),
     path('tasks/<int:pk>/', TaskDetailView.as_view(), name='task-detail'),

@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views import generic
+from django.views import generic, View
 
 from management.forms import TaskCreateForm, TaskUpdateForm
 from management.models import Task
@@ -13,9 +13,20 @@ def index(request):
     return render(request, "management/index.html")
 
 
-@login_required
-def dashboard(request):
-    return render(request, "management/dashboard.html")
+class DashboardView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        user = request.user
+
+        completed_tasks = Task.objects.filter(assignees=user,
+                                              is_completed=True)
+        active_tasks = Task.objects.filter(assignees=user,
+                                           is_completed=False)
+
+        context = {
+            "completed_tasks": completed_tasks,
+            "active_tasks": active_tasks,
+        }
+        return render(request, "management/dashboard.html", context)
 
 
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
