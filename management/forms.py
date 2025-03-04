@@ -21,7 +21,20 @@ class TaskCreateForm(forms.ModelForm):
             'deadline': forms.DateInput(
                 attrs={'type': 'date', 'min': date.today().isoformat()}
             ),
-            'assignees': forms.CheckboxSelectMultiple
+            'assignees': forms.CheckboxSelectMultiple(),
+            'name': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Task name'}
+            ),
+            'description': forms.Textarea(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Enter a brief description'}
+            ),
+            'priority': forms.Select(
+                attrs={'class': 'form-select'}
+            ),
+            'task_type': forms.Select(
+                attrs={'class': 'form-select'}
+            ),
         }
 
     def clean_deadline(self):
@@ -49,5 +62,19 @@ class TaskUpdateForm(forms.ModelForm):
             'deadline': forms.DateInput(
                 attrs={'type': 'date'}
             ),
-            'assignees': forms.CheckboxSelectMultiple
+            'assignees': forms.CheckboxSelectMultiple(
+            ),
+            'name': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Task name'}
+            ),
+            'description': forms.Textarea(
+                attrs={'class': 'form-control', 'placeholder': 'Enter a brief description'}
+            ),
+            'priority': forms.Select(
+                attrs={'class': 'form-select'}
+            ),
+            'task_type': forms.Select(
+                attrs={'class': 'form-select'}
+            ),
+
         }
