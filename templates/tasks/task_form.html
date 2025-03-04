@@ -1,0 +1,35 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="row my-4">
+      <div class="col-lg-6 col-md-6 mb-md-0 mb-4">
+        <div class="card">
+          <div class="card-header">
+            {% if object %}
+              <h6>Edit Task</h6>
+            {% else %}
+              <h6>Create Task</h6>
+            {% endif %}
+          </div>
+          <div class="card-body px-4 pb-2 pt-2">
+            <div class="table-responsive">
+              <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                {% if object %}
+                  <button type="submit" class="btn btn-primary">Update Task
+                  </button>
+                {% else %}
+                  <button type="submit" class="btn btn-primary">Create Task
+                  </button>
+                {% endif %}
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
