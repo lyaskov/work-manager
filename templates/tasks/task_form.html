@@ -33,37 +33,3 @@
     </div>
   </div>
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{% if object %}
-  <h2>Edit Task</h2>
-{% else %}
-  <h2>Create Task</h2>
-{% endif %}
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    {% if object %}
-      <button type="submit" class="btn btn-warning">Update Task</button>
-    {% else %}
-      <button type="submit" class="btn btn-primary">Create Task</button>
-    {% endif %}
-  </form>
-  <a href="{% url 'management:task-list' %}">Back to tasks</a>
