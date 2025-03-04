@@ -1,9 +1,13 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic import UpdateView
 
-from accounts.form import WorkerRegistrationForm
+from accounts.form import WorkerRegistrationForm, UserEditForm
+from management.models import Worker
 
 
 class WorkerRegisterView(View):
@@ -28,3 +32,13 @@ class WorkerRegisterView(View):
 @login_required
 def profile_view(request):
     return render(request, 'accounts/profile.html', {'user': request.user})
+
+
+class UserEditView(LoginRequiredMixin, UpdateView):
+    model = Worker
+    form_class = UserEditForm
+    template_name = 'accounts/user_edit.html'
+    success_url = reverse_lazy('profile')
+
+    def get_object(self, queryset=None):
+        return self.request.user

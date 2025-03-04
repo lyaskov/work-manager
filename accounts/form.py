@@ -69,3 +69,8 @@ class WorkerRegistrationForm(UserCreationForm):
             ),
         }
 
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = Worker
+        fields = ['first_name', 'last_name', 'position']
